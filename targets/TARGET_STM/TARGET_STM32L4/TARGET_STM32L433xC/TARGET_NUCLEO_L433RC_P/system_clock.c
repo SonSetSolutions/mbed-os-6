@@ -303,7 +303,7 @@ uint8_t SetSysClock_PLL_MSI(void)
     RCC_OscInitStruct.HSEState             = RCC_HSE_OFF;
     RCC_OscInitStruct.HSIState             = RCC_HSI_OFF;
 
-#ifdef CLOCK_MSI_24MHZ /* 24MHz) */
+#if defined(CLOCK_MSI_24MHZ) /* 24MHz) */
     // add to mbed_app.json: "target.macros_add": ["CLOCK_MSI_24MHZ"]
     RCC_OscInitStruct.MSICalibrationValue = RCC_MSICALIBRATION_DEFAULT;
     RCC_OscInitStruct.MSIClockRange       = RCC_MSIRANGE_6; /* 4 MHz */
@@ -314,7 +314,7 @@ uint8_t SetSysClock_PLL_MSI(void)
     RCC_OscInitStruct.PLL.PLLP            = 4;  /*  24 MHz */ 
     RCC_OscInitStruct.PLL.PLLQ            = 2;  /*  48 MHz */ 
     RCC_OscInitStruct.PLL.PLLR            = 4;  /*  24 MHz */ 
-#ifdef CLOCK_MSI_72MHZ /* 72 MHz */
+#elif defined(CLOCK_MSI_72MHZ) /* 72 MHz */
     // add to mbed_app.json: "target.macros_add": ["CLOCK_MSI_72MHZ"]
     RCC_OscInitStruct.MSICalibrationValue = RCC_MSICALIBRATION_DEFAULT;
     RCC_OscInitStruct.MSIClockRange       = RCC_MSIRANGE_11; /* 48 MHz */
