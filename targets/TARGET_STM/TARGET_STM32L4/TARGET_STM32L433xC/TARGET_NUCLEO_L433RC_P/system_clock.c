@@ -303,22 +303,39 @@ uint8_t SetSysClock_PLL_MSI(void)
     RCC_OscInitStruct.HSEState             = RCC_HSE_OFF;
     RCC_OscInitStruct.HSIState             = RCC_HSI_OFF;
 
+#ifdef CLOCK_MSI_24MHZ /* 24MHz) */
+    // add to mbed_app.json: "target.macros_add": ["CLOCK_MSI_24MHZ"]
+    RCC_OscInitStruct.MSICalibrationValue = RCC_MSICALIBRATION_DEFAULT;
+    RCC_OscInitStruct.MSIClockRange       = RCC_MSIRANGE_6; /* 4 MHz */
+    RCC_OscInitStruct.PLL.PLLState        = RCC_PLL_ON;
+    RCC_OscInitStruct.PLL.PLLSource       = RCC_PLLSOURCE_MSI;
+    RCC_OscInitStruct.PLL.PLLM            = 1;  /*   4 MHz */
+    RCC_OscInitStruct.PLL.PLLN            = 24; /*  96 MHz */ 
+    RCC_OscInitStruct.PLL.PLLP            = 4;  /*  24 MHz */ 
+    RCC_OscInitStruct.PLL.PLLQ            = 2;  /*  48 MHz */ 
+    RCC_OscInitStruct.PLL.PLLR            = 4;  /*  24 MHz */ 
+#ifdef CLOCK_MSI_72MHZ /* 72 MHz */
+    // add to mbed_app.json: "target.macros_add": ["CLOCK_MSI_72MHZ"]
     RCC_OscInitStruct.MSICalibrationValue = RCC_MSICALIBRATION_DEFAULT;
     RCC_OscInitStruct.MSIClockRange       = RCC_MSIRANGE_11; /* 48 MHz */
     RCC_OscInitStruct.PLL.PLLState        = RCC_PLL_ON;
     RCC_OscInitStruct.PLL.PLLSource       = RCC_PLLSOURCE_MSI;
-    /* 80 MHz */
-    //RCC_OscInitStruct.PLL.PLLM            = 6;    /* 8 MHz */
-    //RCC_OscInitStruct.PLL.PLLN            = 40;   /* 320 MHz */
-    //RCC_OscInitStruct.PLL.PLLP            = 7;    /* 45 MHz */
-    //RCC_OscInitStruct.PLL.PLLQ            = 4;    /* 80 MHz */
-    //RCC_OscInitStruct.PLL.PLLR            = 4;    /* 80 MHz */
-    /* 48 MHz */
-    RCC_OscInitStruct.PLL.PLLM            = 6;    /* 8 MHz */
+    RCC_OscInitStruct.PLL.PLLM            = 8;    /*   6 MHz */
+    RCC_OscInitStruct.PLL.PLLN            = 48;   /* 288 MHz */
+    RCC_OscInitStruct.PLL.PLLP            = 6;    /*  48 MHz */
+    RCC_OscInitStruct.PLL.PLLQ            = 6;    /*  48 MHz */
+    RCC_OscInitStruct.PLL.PLLR            = 4;    /*  72 MHz */
+#else /* 48 MHz */
+    RCC_OscInitStruct.MSICalibrationValue = RCC_MSICALIBRATION_DEFAULT;
+    RCC_OscInitStruct.MSIClockRange       = RCC_MSIRANGE_11; /* 48 MHz */
+    RCC_OscInitStruct.PLL.PLLState        = RCC_PLL_ON;
+    RCC_OscInitStruct.PLL.PLLSource       = RCC_PLLSOURCE_MSI;
+    RCC_OscInitStruct.PLL.PLLM            = 6;    /*   8 MHz */
     RCC_OscInitStruct.PLL.PLLN            = 24;   /* 192 MHz */
-    RCC_OscInitStruct.PLL.PLLP            = 4;    /* 48 MHz */
-    RCC_OscInitStruct.PLL.PLLQ            = 2;    /* 96 MHz */
-    RCC_OscInitStruct.PLL.PLLR            = 4;    /* 48 MHz */
+    RCC_OscInitStruct.PLL.PLLP            = 4;    /*  48 MHz */
+    RCC_OscInitStruct.PLL.PLLQ            = 2;    /*  96 MHz */
+    RCC_OscInitStruct.PLL.PLLR            = 4;    /*  48 MHz */
+#endif 
     if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK) {
         return 0; // FAIL
     }
